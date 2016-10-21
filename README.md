@@ -35,8 +35,6 @@ Another way would be to rely on a webpack plugin:
 
 ### Sample
 
-Include `CodemirrorModule` in your main module :
-
 ```typescript
 import { Component, OnInit } from '@angular/core';
 
