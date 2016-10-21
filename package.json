@@ -1,0 +1,30 @@
+{
+  "name": "ng2-monaco-editor",
+  "version": "0.0.1",
+  "description": "Angular2 Monaco editor component",
+  "homepage": "https://github.com/0plus1/ng2-monaco-editor#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0plus1/ng2-monaco-editor.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "component",
+    "monaco",
+    "monaco editor"
+  ],
+  "author": {
+    "name": "Davide Gaido"
+  },
+  "bugs": {
+    "url": "https://github.com/0plus1/ng2-monaco-editorssues"
+  },
+  "main": "ng2-monaco-editor.ts",
+  "typings": "./ng2-monaco-editor.ts",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
