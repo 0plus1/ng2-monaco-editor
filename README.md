@@ -70,6 +70,11 @@ export class CodeEditorPageComponent implements OnInit {
 This component exposes monaco options as well as language defaults.
 Language defaults are loaded according to whatever language you initialised the component. If you set language to javascript, all of  the language defaults will be automatically applied to javascript.
 
+#### Custom Options
+This component exposes custom options that require more substantial changes to the component. This is currently an experimental feature.
+
+* customPreventCarriageReturn: Prevents any "Enter" key press to be registered. Useful for setting up single line editors. 
+
 Follows an example.
  
  ```typescript
@@ -106,7 +111,8 @@ Follows an example.
         folding: false,
         renderLineHighlight: false,
         overviewRulerLanes: 0,
-        theme: "vs-dark",
+        // theme: "vs-dark",
+        customPreventCarriageReturn: true,
         scrollbar: {
         vertical: 'hidden',
         horizontal: 'auto',

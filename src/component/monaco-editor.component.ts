@@ -120,6 +120,15 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
       }
     }
 
+    // Currently setting this option prevents the autocomplete selection with the "Enter" key
+    // TODO make sure to propagate the event to the autocomplete
+    if (this.options.customPreventCarriageReturn === true)
+    {
+      let preventCarriageReturn  = this._editor.addCommand(monaco.KeyCode.Enter, function() {
+        return false;
+      });
+    }
+
     this._editor.getModel().onDidChangeContent( (e)=>
     {
       this.updateValue(this._editor.getModel().getValue());
