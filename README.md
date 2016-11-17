@@ -64,3 +64,62 @@ export class CodeEditorPageComponent implements OnInit {
 ```html
 <monaco-editor [(ngModel)]="code" [language]="language" ></monaco-editor>
 ```
+
+### Options
+
+This component exposes monaco options as well as language defaults.
+Language defaults are loaded according to whatever language you initialised the component. If you set language to javascript, all of  the language defaults will be automatically applied to javascript.
+
+Follows an example.
+ 
+ ```typescript
+ import { Component, OnInit } from '@angular/core';
+ 
+ @Component({
+   selector: 'code-editor-page',
+   templateUrl: './code-editor-page.component.html',
+   styleUrls: ['./code-editor-page.component.css']
+ })
+ export class CodeEditorPageComponent implements OnInit {
+ 
+    code: string = 'function x() {\nconsole.log("Hello world!");\n}';
+    language: string = 'javascript';
+    // Set language defaults for custom autocomplete
+    language_defaults: any = {
+        compilerOptions: {
+            noLib: true,
+            allowNonTsExtensions: true
+        },
+        extraLibs: [
+            {
+                definitions: 'declare class Facts {\n    /**\n    * Returns the next fact\n     */\n    static next():string\n }',
+                definitions_name: 'filename/facts.d.ts'
+            }
+        ]
+    };
+    // Set Monaco Editor Options
+    monaco_options: any = {
+        lineNumbers: false,
+        roundedSelection: false,
+        scrollBeyondLastLine: false,
+        wrappingColumn: -1,
+        folding: false,
+        renderLineHighlight: false,
+        overviewRulerLanes: 0,
+        theme: "vs-dark",
+        scrollbar: {
+        vertical: 'hidden',
+        horizontal: 'auto',
+        useShadows: false
+    }
+    
+   constructor() {}
+ 
+   ngOnInit() {}
+ 
+ }
+ ```
+ 
+ ```html
+ <monaco-editor [(ngModel)]="code" [language]="language" [language_defaults]="language_defaults" [options]="monaco_options"></monaco-editor>
+ ```

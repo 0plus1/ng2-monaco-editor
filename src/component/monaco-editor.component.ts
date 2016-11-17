@@ -21,6 +21,8 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('editor') editorContent: ElementRef;
   @Input() language: string;
+  @Input() language_defaults: any = null;
+  @Input() options: any = {};
   @Input() set value(v:string) {
     if (v !== this._value) {
       this._value = v;
@@ -32,6 +34,8 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
 
   private _editor: any;
   private _value = '';
+  private _javascriptExtraLibs:any = null;
+  private _typescriptExtraLibs:any = null;
 
   constructor() {}
 
@@ -62,14 +66,60 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Upon destruction of the component we make sure to dispose both the editor and the extra libs that we might've loaded
+   */
+  ngOnDestroy() {
+    this._editor.dispose();
+    if(this._javascriptExtraLibs !== null)
+    {
+      this._javascriptExtraLibs.dispose();
+    }
+
+    if(this._typescriptExtraLibs !== null)
+    {
+      this._typescriptExtraLibs.dispose();
+    }
+  }
+
   // Will be called once monaco library is available
   initMonaco() {
     var myDiv: HTMLDivElement = this.editorContent.nativeElement;
-    this._editor = monaco.editor.create(myDiv,
-        {
-          value: this._value,
-          language: this.language
-        });
+    let options = this.options;
+    options.value = this._value;
+    options.language = this.language;
+
+    this._editor = monaco.editor.create(myDiv, options);
+
+    // Set language defaults
+    // We already set the language on the component so we act accordingly
+    if(this.language_defaults !== null) {
+      switch (this.language) {
+        case 'javascript':
+          monaco.languages.typescript.javascriptDefaults.setCompilerOptions(
+              this.language_defaults.compilerOptions
+          );
+          for (var extraLib in this.language_defaults.extraLibs) {
+            this._javascriptExtraLibs = monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                this.language_defaults.extraLibs[extraLib].definitions,
+                this.language_defaults.extraLibs[extraLib].definitions_name
+            );
+          }
+          break;
+        case 'typescript':
+          monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
+              this.language_defaults.compilerOptions
+          );
+          for (var extraLib in this.language_defaults.extraLibs) {
+            this._typescriptExtraLibs = monaco.languages.typescript.typescriptDefaults.addExtraLib(
+                this.language_defaults.extraLibs[extraLib].definitions,
+                this.language_defaults.extraLibs[extraLib].definitions_name
+            );
+          }
+          break;
+      }
+    }
+
     this._editor.getModel().onDidChangeContent( (e)=>
     {
       this.updateValue(this._editor.getModel().getValue());
