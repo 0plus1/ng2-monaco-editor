@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input, Output,
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 declare const monaco: any;
-declare const require: any;
 
 @Component({
   selector: 'monaco-editor',
@@ -129,7 +128,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this._editor.getModel().onDidChangeContent( (e)=>
+    this._editor.getModel().onDidChangeContent( ()=>
     {
       this.updateValue(this._editor.getModel().getValue());
     });
